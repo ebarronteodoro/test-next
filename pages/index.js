@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import Layout from '../components/Layout'
 import slugify from 'slugify'
+import '@/styles/pages/home.css'
 
 export async function getServerSideProps () {
   const productos = [
@@ -35,11 +36,12 @@ export default function Home ({ productos }) {
         {productos.map(producto => {
           const slug = slugify(producto.nombre, { lower: true, strict: true })
 
-          console.log('Generando slug:', slug) // Verifica en la consola del navegador
-
           return (
             <li key={producto.id}>
-              <Link href={`/productos/${slug}`}>{producto.nombre}</Link>
+              {/* ✅ Agregamos `prefetch={true}` para precargar la página */}
+              <Link href={`/productos/${slug}`} prefetch={true}>
+                {producto.nombre}
+              </Link>
             </li>
           )
         })}
